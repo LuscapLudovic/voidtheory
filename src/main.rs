@@ -30,23 +30,24 @@ struct Post {
     author: String,
 }
 
+async fn submission(tera: web::Data<Tera>, id: Identity) -> impl Responder {
+    let mut data = Context::new();
+    data.insert("title", "submit a post");
+
+    if let Some(id) = id.identity() {
+        let rendered = tera.render("submission.html", &data).unwrap();
+        return HttpResponse::Ok().body(rendered);
+    }
+
+    HttpResponse::Unauthorized().body("User not logged in.")
+}
+
 async fn index(tera: web::Data<Tera>) -> impl Responder {
     let mut data = Context::new();
 
-    let posts = [
-        Post {
-            title: String::from("This is the first link"),
-            link: String::from("https://example.com"),
-            author: String::from("Bob")
-        },
-        Post {
-            title: String::from("The Second Link"),
-            link: String::from("https://example.com"),
-            author: String::from("Alice")
-        },
-    ];
+    let posts = "";
 
-    data.insert("title", "Hacker Clone");
+    data.insert("title", "RAAAH PUTE");
     data.insert("posts", &posts);
 
     let rendered = tera.render("index.html", &data).unwrap();
