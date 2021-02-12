@@ -1,10 +1,11 @@
-FROM rust as builder
-WORKDIR app
-COPY . .
-RUN cargo install diesel_cli --no-default-features --features postgres
-RUN cargo build --release --bin voidtheory
+FROM rustlang/rust:nightly
 
-FROM debian:buster-slim
-COPY --from=builder /app/target/release/voidtheory .
-COPY ./script.sh .
-ENTRYPOINT ["./script.sh"]
+RUN cargo install diesel_cli --features postgres
+
+RUN cargo install cargo-watch
+
+WORKDIR /usr/src/app
+
+EXPOSE 8000
+
+VOLUME ["/usr/local/cargo"]
