@@ -39,4 +39,10 @@
     ```
     Vous pouvez le tester à l'adresse http://127.0.0.1:8000/position
     
+    
+## Docker
+
+    ```
+    docker-compose build
+    ```
 
